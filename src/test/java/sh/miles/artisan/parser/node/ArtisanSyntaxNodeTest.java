@@ -1,5 +1,6 @@
 package sh.miles.artisan.parser.node;
 
+import org.junit.jupiter.api.Test;
 import sh.miles.artisan.parser.token.ArtisanParseToken;
 import sh.miles.artisan.parser.token.ArtisanTokenizer;
 import sh.miles.artisan.test.TestUtil;
@@ -7,34 +8,31 @@ import sh.miles.artisan.test.TestUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-import static sh.miles.artisan.parser.node.ContainerArtisanSyntaxNode.NodeContainerType.FUNCTION_CONTENT;
-import static sh.miles.artisan.parser.node.ContainerArtisanSyntaxNode.NodeContainerType.METADATA;
-import static sh.miles.artisan.parser.node.ContainerArtisanSyntaxNode.NodeContainerType.ROOT;
-import static sh.miles.artisan.parser.token.ArtisanParseToken.ArtisanTokenType.META;
-import static sh.miles.artisan.parser.token.ArtisanParseToken.ArtisanTokenType.OPEN;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ArtisanSyntaxNodeTest {
 
-    public static void main(String[] args) {
-        final ArtisanSyntaxNode root = ContainerArtisanSyntaxNode.create(ROOT, null);
-        ArtisanSyntaxNode currentContainer = ContainerArtisanSyntaxNode.create(METADATA, null);
-        currentContainer.addChild(MetadataArtisanSyntaxNode.create(new ArtisanParseToken(0, "key: complex value\t", META)));
-        currentContainer.addChild(MetadataArtisanSyntaxNode.create(new ArtisanParseToken(0, "another key: another complex value\t", META)));
-        root.addChild(currentContainer);
-        currentContainer = ContainerArtisanSyntaxNode.create(FUNCTION_CONTENT, new ArtisanParseToken(0, "AT", OPEN));
-        ArtisanSyntaxNode currentSubContainer = new LiteralArtisanSyntaxNode("Some Literal Content");
-        currentSubContainer.addChild(new MetadataArtisanSyntaxNode("literlmetakey", "literalmetavalue"));
-        currentContainer.addChild(currentSubContainer);
-        root.addChild(currentContainer);
-        System.out.println(root);
+    @Test
+    public void testShouldParse() {
+        final var tokens = tokenize("parser/token/success-test.ajex");
+        final var tree = assertDoesNotThrow(() -> ArtisanSyntaxNode.generate(tokens));
+        // System.out.println(tree);
+    }
 
+    @Test
+    public void testShouldFailParse() {
+        final var tokens = tokenize("parser/node/fail-ast-test.ajex");
+        assertThrows(IllegalArgumentException.class, () -> ArtisanSyntaxNode.generate(tokens));
+    }
+
+    private static List<ArtisanParseToken> tokenize(String file) {
         final List<ArtisanParseToken> tokens = new ArrayList<>();
-        final var tokenizer = new ArtisanTokenizer(TestUtil.readResource("parser/token/success-test.ajex"));
+        final var tokenizer = new ArtisanTokenizer(TestUtil.readResource(file));
         while (tokenizer.hasNext()) {
             tokens.add(tokenizer.next());
         }
 
-        final var ast = ArtisanSyntaxNode.generate(tokens);
-        System.out.println(ast);
+        return tokens;
     }
+
 }

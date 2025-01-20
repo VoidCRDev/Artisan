@@ -25,7 +25,7 @@ public class ArtisanTokenizerTest {
 
     @Test
     public void testTokenizeFailsWithFile() {
-        final ArtisanTokenizer tokenizer = new ArtisanTokenizer(TestUtil.readResource("parser/token/fail-test.ajex"));
+        final ArtisanTokenizer tokenizer = new ArtisanTokenizer(TestUtil.readResource("parser/token/fail-tokenizer-test.ajex"));
         int lastToken = 0;
         while (assertDoesNotThrow(tokenizer::hasNext, "Tokenizer has next is throwing unexpectedly")) {
             final ArtisanParseToken token = tokenizer.next();
