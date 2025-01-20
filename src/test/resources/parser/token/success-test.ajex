@@ -1,0 +1,13 @@
+# Artisan Java Extension Format (.ajex)
+
+# Metadata Block
+@Version: 1.0.0
+@LastUpdated: 2025-01-18
+@Author: Y2Kwastaken
+@Project: Artisan Java Extension Test
+
+# Access Transformers (AT)
+# - Define access transformers for fields and methods
+~AT
+public sh/miles/test/class/path/MyCustomClass getCustomMethod(Ljava/lang/String;)V
+~AT

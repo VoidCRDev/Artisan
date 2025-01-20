@@ -1,0 +1,15 @@
+[versions]
+asm-version = "9.7.1"
+jspecify-version = "1.0.0"
+junit-version = "5.11.4"
+junit-launcher = "1.11.4"
+
+[libraries]
+asm = { module = "org.ow2.asm:asm", version.ref = "asm-version" }
+jspecify = { module = "org.jspecify:jspecify", version.ref = "jspecify-version" }
+junit-api = { module = "org.junit.jupiter:junit-jupiter-api" }
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junit-version" }
+junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit-version" }
+junit-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit-launcher" }
+
+[plugins]
