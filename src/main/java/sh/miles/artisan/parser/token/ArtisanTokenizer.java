@@ -50,20 +50,20 @@ public final class ArtisanTokenizer implements Iterator<ArtisanParseToken> {
                     case META -> {
                         final StringBuilder result = new StringBuilder();
                         ArtisanUtils.collectUntilCode(stream, NEW_LINE, result, ArtisanUtils::appendCharFromInteger);
-                        return new ArtisanParseToken(id++, result, ArtisanTokenType.META);
+                        return new ArtisanParseToken(id++, result.toString(), ArtisanTokenType.META);
                     }
 
                     case COMMENT -> {
                         final StringBuilder result = new StringBuilder();
                         ArtisanUtils.collectUntilCode(stream, NEW_LINE, result, ArtisanUtils::appendCharFromInteger);
-                        return new ArtisanParseToken(id++, result, ArtisanTokenType.COMMENT);
+                        return new ArtisanParseToken(id++, result.toString(), ArtisanTokenType.COMMENT);
                     }
 
                     case OPEN_CLOSE -> {
                         final StringBuilder result = new StringBuilder();
                         ArtisanUtils.collectUntilCode(stream, NEW_LINE, result, ArtisanUtils::appendCharFromInteger);
                         this.hasOpenedTag = !hasOpenedTag;
-                        return new ArtisanParseToken(id++, result, this.hasOpenedTag ? ArtisanTokenType.OPEN : ArtisanTokenType.CLOSE);
+                        return new ArtisanParseToken(id++, result.toString(), this.hasOpenedTag ? ArtisanTokenType.OPEN : ArtisanTokenType.CLOSE);
                     }
 
                     default -> {
@@ -74,7 +74,7 @@ public final class ArtisanTokenizer implements Iterator<ArtisanParseToken> {
                         }
                         final StringBuilder result = new StringBuilder().append((char) next);
                         ArtisanUtils.collectUntilCode(stream, NEW_LINE, result, ArtisanUtils::appendCharFromInteger);
-                        return new ArtisanParseToken(id++, result, ArtisanTokenType.ENTRY);
+                        return new ArtisanParseToken(id++, result.toString(), ArtisanTokenType.ENTRY);
                     }
                 }
             }

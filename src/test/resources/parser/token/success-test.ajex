@@ -9,5 +9,6 @@
 # Access Transformers (AT)
 # - Define access transformers for fields and methods
 ~AT
+@Inheritable: All
 public sh/miles/test/class/path/MyCustomClass getCustomMethod(Ljava/lang/String;)V
 ~AT

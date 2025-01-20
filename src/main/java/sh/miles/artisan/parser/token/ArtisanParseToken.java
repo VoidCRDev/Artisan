@@ -11,7 +11,7 @@ import org.jspecify.annotations.NullMarked;
  * @since 1.0.0
  */
 @NullMarked
-public record ArtisanParseToken(int id, StringBuilder segment, ArtisanTokenType tokenType) {
+public record ArtisanParseToken(int id, String segment, ArtisanTokenType tokenType) {
 
     /**
      * Represents types of tokens that can be tokenized
