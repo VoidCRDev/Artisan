@@ -1,4 +1,4 @@
-package sh.miles.artisan.test;
+package sh.miles.artisan.util;
 
 import java.io.InputStream;
 import java.util.Random;

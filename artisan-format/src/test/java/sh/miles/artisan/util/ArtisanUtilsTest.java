@@ -1,7 +1,6 @@
 package sh.miles.artisan.util;
 
 import org.junit.jupiter.api.Test;
-import sh.miles.artisan.test.TestUtil;
 import sh.miles.artisan.util.stream.StringInputStream;
 
 import java.util.List;

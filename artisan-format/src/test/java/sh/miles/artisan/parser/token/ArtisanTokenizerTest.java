@@ -1,7 +1,7 @@
 package sh.miles.artisan.parser.token;
 
 import org.junit.jupiter.api.Test;
-import sh.miles.artisan.test.TestUtil;
+import sh.miles.artisan.util.TestUtil;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,7 +19,7 @@ public class ArtisanTokenizerTest {
         while (assertDoesNotThrow(tokenizer::hasNext, "Tokenizer has next is throwing unexpectedly")) {
             final ArtisanParseToken token = assertDoesNotThrow(tokenizer::next);
             assertEquals(lastToken++, token.id());
-            System.out.println(token);
+            // System.out.println(token);
         }
     }
 

@@ -1,7 +1,7 @@
 package sh.miles.artisan.util.stream;
 
 import org.junit.jupiter.api.Test;
-import sh.miles.artisan.test.TestUtil;
+import sh.miles.artisan.util.TestUtil;
 
 import java.util.Random;
 

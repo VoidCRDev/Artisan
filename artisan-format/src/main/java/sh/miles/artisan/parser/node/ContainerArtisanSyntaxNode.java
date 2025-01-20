@@ -5,6 +5,8 @@ import org.jspecify.annotations.Nullable;
 import sh.miles.artisan.parser.token.ArtisanParseToken;
 import sh.miles.artisan.parser.token.ArtisanParseToken.ArtisanTokenType;
 
+import java.util.Objects;
+
 /**
  * An implementation of {@link  ArtisanSyntaxNode} that represents a "Container" like node which contains other nodes to
  * divide them. Into syntactical structures more cleanly
@@ -42,8 +44,39 @@ public final class ContainerArtisanSyntaxNode extends ArtisanSyntaxNode {
         return builder;
     }
 
+    @Override
+    public boolean equals(final Object o) {
+        if (!(o instanceof final ContainerArtisanSyntaxNode that)) return false;
+        if (!super.equals(o)) return false;
+        return containerType == that.containerType && Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), containerType, name);
+    }
+
     public enum NodeContainerType {
         METADATA, FUNCTION_CONTENT, ROOT,
+    }
+
+    /**
+     * Allows more generic creation of container syntax nodes. note Root containers can not be created
+     *
+     * @param type the type of container to create, roots can not be created
+     * @param name the name of the node
+     * @return the container node
+     * @since 1.0.0
+     */
+    public static ContainerArtisanSyntaxNode create(NodeContainerType type, final String name) {
+        switch (type) {
+            case ROOT, METADATA ->
+                    throw new IllegalArgumentException("A root node is not allowed to be constructed with this method.");
+            case FUNCTION_CONTENT -> {
+                return new ContainerArtisanSyntaxNode(type, name);
+            }
+            case null, default -> throw new IllegalStateException("Unexpected value: " + type);
+        }
     }
 
     /**
@@ -84,9 +117,8 @@ public final class ContainerArtisanSyntaxNode extends ArtisanSyntaxNode {
                 return new ContainerArtisanSyntaxNode(type, token.segment());
             }
 
-            case null, default -> {
-                throw new IllegalArgumentException("The provided type was null or not yet implemented (%s)".formatted(type));
-            }
+            case null, default ->
+                    throw new IllegalArgumentException("The provided type was null or not yet implemented (%s)".formatted(type));
         }
     }
 }

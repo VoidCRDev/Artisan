@@ -2,9 +2,12 @@ package sh.miles.artisan.parser.node;
 
 import org.jspecify.annotations.NullMarked;
 import sh.miles.artisan.parser.token.ArtisanParseToken;
+import sh.miles.artisan.visitor.ArtisanNodeReader;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Stack;
 
 import static sh.miles.artisan.parser.node.ContainerArtisanSyntaxNode.NodeContainerType.FUNCTION_CONTENT;
@@ -17,7 +20,7 @@ import static sh.miles.artisan.parser.node.ContainerArtisanSyntaxNode.NodeContai
  * @since 1.0.0
  */
 @NullMarked
-public abstract class ArtisanSyntaxNode {
+public abstract class ArtisanSyntaxNode implements Iterable<ArtisanSyntaxNode> {
 
     protected final List<ArtisanSyntaxNode> children = new ArrayList<>();
 
@@ -29,6 +32,34 @@ public abstract class ArtisanSyntaxNode {
      */
     public void addChild(ArtisanSyntaxNode child) {
         this.children.add(child);
+    }
+
+    /**
+     * Replaces the provided original with the replaced value
+     *
+     * @param original the original value
+     * @param replace  the value to replace the original
+     * @since 1.0.0
+     */
+    public void replaceChild(ArtisanSyntaxNode original, ArtisanSyntaxNode replace) {
+        for (int i = 0; i < this.children.size(); i++) {
+            if (this.children.get(i) == original) {
+                this.children.set(i, replace);
+                break;
+            }
+        }
+    }
+
+    /**
+     * Removes a direct child from this node
+     * <p>
+     * This method does not remove children's children
+     *
+     * @param child the direct child to remove
+     * @since 1.0.0
+     */
+    public void removeChild(ArtisanSyntaxNode child) {
+        this.children.remove(child);
     }
 
     /**
@@ -73,8 +104,24 @@ public abstract class ArtisanSyntaxNode {
     protected abstract StringBuilder asString(StringBuilder builder, int depth);
 
     @Override
+    public Iterator<ArtisanSyntaxNode> iterator() {
+        return this.children.iterator();
+    }
+
+    @Override
     public String toString() {
         return asString(new StringBuilder(), 0).toString();
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (!(o instanceof final ArtisanSyntaxNode that)) return false;
+        return Objects.equals(children, that.children);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(children);
     }
 
     /**
@@ -84,8 +131,8 @@ public abstract class ArtisanSyntaxNode {
      * @return the node tree
      */
     public static ArtisanSyntaxNode generate(List<ArtisanParseToken> tokens) {
-        final var root = ContainerArtisanSyntaxNode.create(ROOT, null);
-        final var meta = ContainerArtisanSyntaxNode.create(METADATA, null);
+        final var root = ContainerArtisanSyntaxNode.create(ROOT, (ArtisanParseToken) null);
+        final var meta = ContainerArtisanSyntaxNode.create(METADATA, (ArtisanParseToken) null);
         ContainerArtisanSyntaxNode head = root;
         Stack<ArtisanSyntaxNode> metaCache = new Stack<>();
         boolean hasOpenedAtAll = false;

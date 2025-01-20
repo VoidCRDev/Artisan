@@ -3,7 +3,7 @@ package sh.miles.artisan.parser.node;
 import org.junit.jupiter.api.Test;
 import sh.miles.artisan.parser.token.ArtisanParseToken;
 import sh.miles.artisan.parser.token.ArtisanTokenizer;
-import sh.miles.artisan.test.TestUtil;
+import sh.miles.artisan.util.TestUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ public class ArtisanSyntaxNodeTest {
     public void testShouldParse() {
         final var tokens = tokenize("parser/token/success-test.ajex");
         final var tree = assertDoesNotThrow(() -> ArtisanSyntaxNode.generate(tokens));
-        // System.out.println(tree);
+         System.out.println(tree);
     }
 
     @Test

@@ -4,6 +4,8 @@ import org.jspecify.annotations.NullMarked;
 import sh.miles.artisan.parser.token.ArtisanParseToken;
 import sh.miles.artisan.parser.token.ArtisanParseToken.ArtisanTokenType;
 
+import java.util.Objects;
+
 /**
  * An implementation of {@link ArtisanSyntaxNode} that wraps some text value that can be parsed later or left as is
  *
@@ -40,6 +42,29 @@ public final class LiteralArtisanSyntaxNode extends ArtisanSyntaxNode {
             builder.append("\n");
         }
         return builder;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (!(o instanceof final LiteralArtisanSyntaxNode that)) return false;
+        if (!super.equals(o)) return false;
+        return Objects.equals(literal, that.literal);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), literal);
+    }
+
+    /**
+     * Creates a {@link LiteralArtisanSyntaxNode}
+     *
+     * @param content the content to store in the literal
+     * @return the literal node
+     * @since 1.0.0
+     */
+    public static LiteralArtisanSyntaxNode create(String content) {
+        return new LiteralArtisanSyntaxNode(content);
     }
 
     /**

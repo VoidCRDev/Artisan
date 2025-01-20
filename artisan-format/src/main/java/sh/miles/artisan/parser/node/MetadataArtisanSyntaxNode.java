@@ -1,8 +1,10 @@
 package sh.miles.artisan.parser.node;
 
+import org.jspecify.annotations.NullMarked;
 import sh.miles.artisan.parser.token.ArtisanParseToken;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 import static sh.miles.artisan.parser.token.ArtisanParseToken.ArtisanTokenType.META;
 
@@ -12,6 +14,7 @@ import static sh.miles.artisan.parser.token.ArtisanParseToken.ArtisanTokenType.M
  *
  * @since 1.0.0
  */
+@NullMarked
 public final class MetadataArtisanSyntaxNode extends ArtisanSyntaxNode {
 
     public final String key;
@@ -31,6 +34,30 @@ public final class MetadataArtisanSyntaxNode extends ArtisanSyntaxNode {
     protected StringBuilder asString(final StringBuilder builder, final int depth) {
         builder.append("\t".repeat(depth)).append("MetadataNode(").append(this.key).append(",").append(this.value).append(")\n");
         return builder;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (!(o instanceof final MetadataArtisanSyntaxNode that)) return false;
+        if (!super.equals(o)) return false;
+        return Objects.equals(key, that.key) && Objects.equals(value, that.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), key, value);
+    }
+
+    /**
+     * Creates a {@link MetadataArtisanSyntaxNode}
+     *
+     * @param key   the key value to provide
+     * @param value the value to provide
+     * @return the created metadata node
+     * @since 1.0.0
+     */
+    public static MetadataArtisanSyntaxNode create(final String key, final String value) {
+        return new MetadataArtisanSyntaxNode(key, value);
     }
 
     /**
