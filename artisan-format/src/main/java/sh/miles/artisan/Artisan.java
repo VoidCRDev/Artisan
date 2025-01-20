@@ -9,6 +9,8 @@ import sh.miles.artisan.util.ArtisanUtils;
  */
 public final class Artisan {
 
+    public static final String FILE_EXTENSION = ".ajex";
+
     private Artisan() {
         throw ArtisanUtils.utilityClass(getClass());
     }
