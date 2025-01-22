@@ -2,8 +2,8 @@ plugins {
     `java-library`
 }
 
-group = "sh.miles.artisan"
-version = "1.0.0-SNAPSHOT"
+group = rootProject.group
+version = rootProject.version
 
 repositories {
     mavenCentral()

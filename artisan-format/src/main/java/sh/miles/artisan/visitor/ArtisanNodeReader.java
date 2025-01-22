@@ -10,9 +10,11 @@ import sh.miles.artisan.parser.node.MetadataArtisanSyntaxNode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.Stack;
 
 /**
@@ -41,6 +43,26 @@ public final class ArtisanNodeReader {
     }
 
     /**
+     * Gets a list of all container names provided to the reader
+     * <p>
+     * Note this method does not return "root" or "metadata" containers. These are meant for internal or more advanced
+     * use. If you need metadata from the metadata container use {@link #getMetaValue(String, boolean)}
+     *
+     * @return a list of container names
+     * @since 1.0.0
+     */
+    public List<String> getContainers() {
+        final List<String> collector = new ArrayList<>();
+        for (final ArtisanSyntaxNode node : root) {
+            if (node instanceof ContainerArtisanSyntaxNode container) {
+                collector.add(container.name);
+            }
+        }
+
+        return collector;
+    }
+
+    /**
      * Gets all literals inside the provided container
      *
      * @param containerName the container to retrieve the literals from
@@ -63,6 +85,46 @@ public final class ArtisanNodeReader {
         }
 
         return literals;
+    }
+
+    /**
+     * Gets all metadata values from within the root node in this reader
+     * <p>
+     * General this method with deep true should be used sparingly and instead any calls to deep should usually be
+     * replaced with the results of {@link #getLiterals(String)}, which also provides metadata bundled with the
+     * {@link LiteralResult}.
+     *
+     * @param deep whether or not to scan the entire tree. Note this is far more expensive
+     * @return all non repeated meta data values
+     * @since 1.0.0
+     */
+    public Set<MetadataResult> getAllMetadataValues(boolean deep) {
+        final Set<MetadataResult> collector = new HashSet<>();
+        final ContainerArtisanSyntaxNode metaContainer = getContainer(NodeContainerType.METADATA, null);
+        MetadataArtisanSyntaxNode metaNode;
+        for (final ArtisanSyntaxNode node : metaContainer) {
+            metaNode = (MetadataArtisanSyntaxNode) node;
+            collector.add(new MetadataResult(metaNode.key, metaNode.value));
+        }
+
+        if (!deep) return collector;
+
+        Stack<ArtisanSyntaxNode> toVisit = new Stack<>();
+        toVisit.add(this.root);
+        ArtisanSyntaxNode next;
+        while (!toVisit.isEmpty()) {
+            next = toVisit.pop();
+            if (next == metaContainer) continue;
+            if (next instanceof MetadataArtisanSyntaxNode meta) {
+                collector.add(new MetadataResult(meta.key, meta.value));
+            }
+
+            for (final ArtisanSyntaxNode child : next) {
+                toVisit.add(child);
+            }
+        }
+
+        return collector;
     }
 
     /**
