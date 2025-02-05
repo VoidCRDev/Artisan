@@ -1,27 +1,9 @@
 plugins {
-    `java-library`
+    id("artisan-common")
 }
 
 group = rootProject.group
 version = rootProject.version
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    api(libs.jspecify)
-
-    testImplementation(platform(libs.junit.bom))
-    testImplementation(libs.junit.api)
-
-    testRuntimeOnly(libs.junit.engine)
-    testRuntimeOnly(libs.junit.launcher)
-}
-
-tasks.test {
-    useJUnitPlatform()
-}
 
 configurations {
     create("test")
