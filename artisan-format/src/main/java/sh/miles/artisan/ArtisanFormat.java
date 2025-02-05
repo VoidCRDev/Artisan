@@ -2,7 +2,6 @@ package sh.miles.artisan;
 
 import org.jspecify.annotations.NullMarked;
 import sh.miles.artisan.parser.node.ArtisanSyntaxNode;
-import sh.miles.artisan.parser.node.ContainerArtisanSyntaxNode;
 import sh.miles.artisan.parser.token.ArtisanParseToken;
 import sh.miles.artisan.parser.token.ArtisanTokenizer;
 import sh.miles.artisan.util.ArtisanUtils;
@@ -11,8 +10,6 @@ import sh.miles.artisan.visitor.ArtisanNodeReader;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import static sh.miles.artisan.parser.node.ContainerArtisanSyntaxNode.NodeContainerType.ROOT;
 
 /**
  * Main access point for all artisan API. All you need in one easy to access class

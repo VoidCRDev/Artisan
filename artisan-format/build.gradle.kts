@@ -10,11 +10,12 @@ repositories {
 }
 
 dependencies {
-    implementation(libs.jspecify)
+    api(libs.jspecify)
+    api(project(":artisan-core"))
 
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.junit.api)
-    testImplementation(libs.asm)
+    testImplementation(project(":artisan-core", "test"))
 
     testRuntimeOnly(libs.junit.engine)
     testRuntimeOnly(libs.junit.launcher)

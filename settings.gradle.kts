@@ -5,4 +5,4 @@ gradle.rootProject {
     version = "1.0.0-SNAPSHOT"
 }
 
-include("artisan-format", "artisan-extensions")
+include("artisan-core", "artisan-format", "artisan-extensions")

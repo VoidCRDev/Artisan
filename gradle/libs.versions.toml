@@ -6,6 +6,7 @@ junit-launcher = "1.11.4"
 
 [libraries]
 asm = { module = "org.ow2.asm:asm", version.ref = "asm-version" }
+asm-tree = { module = "org.ow2.asm:asm-tree", version.ref = "asm-version" }
 jspecify = { module = "org.jspecify:jspecify", version.ref = "jspecify-version" }
 junit-api = { module = "org.junit.jupiter:junit-jupiter-api" }
 junit-bom = { module = "org.junit:junit-bom", version.ref = "junit-version" }

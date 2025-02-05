@@ -1,0 +1,15 @@
+# Artisan Java Extension Format (.ajex)
+
+~NAIVE_TEST_AT
+public sh/miles/Example STATIC_FIELD
+public sh/miles/Example NUMBER
+public sh/miles/Example field
+public sh/miles/Example doThing()V
+~NAIVE_TEST_AT
+
+~AT
+public sh/miles/Example STATIC_FIELD
+public sh/miles/Example NUMBER
+public sh/miles/Example field
+public sh/miles/Example doThing()V
+~AT

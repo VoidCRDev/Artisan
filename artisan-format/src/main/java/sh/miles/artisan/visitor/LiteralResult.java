@@ -4,6 +4,7 @@ import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -44,4 +45,22 @@ public final class LiteralResult {
         return this.metadata.keySet();
     }
 
+    @Override
+    public boolean equals(final Object o) {
+        if (!(o instanceof final LiteralResult that)) return false;
+        return Objects.equals(literal, that.literal) && Objects.equals(metadata, that.metadata);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(literal, metadata);
+    }
+
+    @Override
+    public String toString() {
+        return "LiteralResult{" +
+                "literal='" + literal + '\'' +
+                ", metadata=" + metadata +
+                '}';
+    }
 }

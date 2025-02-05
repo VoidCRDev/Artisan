@@ -10,13 +10,8 @@ repositories {
 }
 
 dependencies {
-    api(project(":artisan-format"))
-    api(project(":artisan-core"))
-    api(libs.asm)
-    api(libs.asm.tree)
     api(libs.jspecify)
 
-    testImplementation(project(":artisan-core", "test"))
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.junit.api)
 
@@ -26,4 +21,17 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+configurations {
+    create("test")
+}
+
+tasks.register<Jar>("buildTestJar") {
+    archiveAppendix = "test"
+    from(project.the<SourceSetContainer>()["test"].output)
+}
+
+artifacts {
+    add("test", tasks["buildTestJar"])
 }

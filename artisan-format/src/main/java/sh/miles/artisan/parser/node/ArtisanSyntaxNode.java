@@ -170,6 +170,7 @@ public abstract class ArtisanSyntaxNode implements Iterable<ArtisanSyntaxNode> {
                     }
 
                     head = root; // can only go one deep for now, can use a stack structure later
+                    open = false;
                 }
 
                 case ENTRY -> {

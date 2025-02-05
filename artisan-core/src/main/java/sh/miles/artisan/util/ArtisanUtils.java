@@ -148,6 +148,13 @@ public final class ArtisanUtils {
         return collection;
     }
 
+    /**
+     * Simple method to append chars to builder from integer value
+     *
+     * @param builder builder to append to
+     * @param integer integer to convert
+     * @since 1.0.0
+     */
     public static void appendCharFromInteger(StringBuilder builder, Integer integer) {
         builder.append((char) integer.intValue());
     }
