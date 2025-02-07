@@ -1,11 +1,11 @@
 plugins {
     `java-library`
     `version-catalog`
+    `maven-publish`
 }
 
 repositories {
     mavenCentral()
-
 }
 
 dependencies {
@@ -18,6 +18,29 @@ dependencies {
     testRuntimeOnly(libs.findLibrary("junit-launcher").get())
 }
 
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
 tasks.test {
     useJUnitPlatform()
+}
+
+publishing {
+    repositories {
+        maven("https://maven.miles.sh/snapshots") {
+            credentials {
+                username = System.getenv("REPO_USERNAME")
+                password = System.getenv("REPO_PASSWORD")
+            }
+        }
+    }
+
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = rootProject.group as String
+            from(components["java"])
+        }
+    }
 }

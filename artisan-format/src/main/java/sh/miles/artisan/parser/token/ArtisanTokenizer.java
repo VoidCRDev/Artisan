@@ -1,6 +1,7 @@
 package sh.miles.artisan.parser.token;
 
 import org.jspecify.annotations.NullMarked;
+import sh.miles.artisan.ArtisanFormat;
 import sh.miles.artisan.parser.token.ArtisanParseToken.ArtisanTokenType;
 import sh.miles.artisan.util.ArtisanUtils;
 
@@ -23,10 +24,17 @@ public final class ArtisanTokenizer implements Iterator<ArtisanParseToken> {
     private int id = 0;
     private boolean hasOpenedTag = false;
 
+    /**
+     * Creates a new ArtisanTokenizer
+     * <p>
+     * Generally calls to the ArtisanTokenizer should be delegated to {@link ArtisanFormat#tokenize(InputStream)}
+     *
+     * @param stream the stream to use to create the tokenizer
+     * @since 1.0.0
+     */
     public ArtisanTokenizer(InputStream stream) {
         this.stream = stream;
     }
-
 
     @Override
     public boolean hasNext() {

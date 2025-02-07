@@ -17,7 +17,17 @@ import static sh.miles.artisan.parser.token.ArtisanParseToken.ArtisanTokenType.M
 @NullMarked
 public final class MetadataArtisanSyntaxNode extends ArtisanSyntaxNode {
 
+    /**
+     * The key of this syntax node
+     *
+     * @since 1.0.0
+     */
     public final String key;
+    /**
+     * The value of this syntax node
+     *
+     * @since 1.0.0
+     */
     public final String value;
 
     MetadataArtisanSyntaxNode(final String key, final String value) {

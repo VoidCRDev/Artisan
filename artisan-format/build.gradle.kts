@@ -1,5 +1,4 @@
 plugins {
-    `java-library`
     id("artisan-common")
 }
 
@@ -10,3 +9,4 @@ dependencies {
     api(project(":artisan-core"))
     testImplementation(project(":artisan-core", "test"))
 }
+

@@ -19,6 +19,7 @@ public interface ContainerHandler {
      * the implementation
      *
      * @param literal the literal to use
+     * @param logger  the logger
      * @since 1.0.0
      */
     void parse(LiteralResult literal, ArtisanLogger logger);
@@ -26,8 +27,9 @@ public interface ContainerHandler {
     /**
      * Gets the class visitor for this given handler
      *
-     * @param node the parent node to apply changes too
-     * @param path the path "name" of the class being edited
+     * @param node   the parent node to apply changes too
+     * @param path   the path "name" of the class being edited
+     * @param logger the logger
      * @since 1.0.0
      */
     void visit(ClassNode node, JvmClasspath path, ArtisanLogger logger);

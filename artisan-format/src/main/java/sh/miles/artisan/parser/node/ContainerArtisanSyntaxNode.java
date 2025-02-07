@@ -16,7 +16,20 @@ import java.util.Objects;
 @NullMarked
 public final class ContainerArtisanSyntaxNode extends ArtisanSyntaxNode {
 
+    /**
+     * The type of node this container is
+     *
+     * @see NodeContainerType
+     * @since 1.0.0
+     */
     public final NodeContainerType containerType;
+    /**
+     * Represents the name fo the artisan container
+     * <p>
+     * null if the container is not a {@link NodeContainerType#FUNCTION_CONTENT}
+     *
+     * @since 1.0.0
+     */
     @Nullable
     public final String name;
 
@@ -56,8 +69,31 @@ public final class ContainerArtisanSyntaxNode extends ArtisanSyntaxNode {
         return Objects.hash(super.hashCode(), containerType, name);
     }
 
+    /**
+     * Represents types of "types" a container node can be
+     *
+     * @since 1.0.0
+     */
     public enum NodeContainerType {
-        METADATA, FUNCTION_CONTENT, ROOT,
+        /**
+         * Distinct container only found in the root of a node tree
+         *
+         * @since 1.0.0
+         */
+        ROOT,
+        /**
+         * A child of the {@link #ROOT} node, which allows for the storage of file wide metadata
+         *
+         * @since 1.0.0
+         */
+        METADATA,
+        /**
+         * Functional "Content" contains {@link LiteralArtisanSyntaxNode} entries, which when passed to the
+         * "artisan-extensions" module or any other actor should provide some "function" to the literals.
+         *
+         * @since 1.0.0
+         */
+        FUNCTION_CONTENT,
     }
 
     /**

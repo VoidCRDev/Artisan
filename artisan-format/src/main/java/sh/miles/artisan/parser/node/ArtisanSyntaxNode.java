@@ -22,6 +22,11 @@ import static sh.miles.artisan.parser.node.ContainerArtisanSyntaxNode.NodeContai
 @NullMarked
 public abstract class ArtisanSyntaxNode implements Iterable<ArtisanSyntaxNode> {
 
+    /**
+     * All child nodes of this syntax node
+     *
+     * @since 1.0.0
+     */
     protected final List<ArtisanSyntaxNode> children = new ArrayList<>();
 
     /**

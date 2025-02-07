@@ -15,6 +15,11 @@ import java.util.Set;
 @NullMarked
 public final class LiteralResult {
 
+    /**
+     * The literal within this "result"
+     *
+     * @since 1.0.0
+     */
     public final String literal;
     private final Map<String, String> metadata;
 

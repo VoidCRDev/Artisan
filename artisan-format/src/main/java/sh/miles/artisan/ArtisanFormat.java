@@ -19,6 +19,11 @@ import java.util.List;
 @NullMarked
 public final class ArtisanFormat {
 
+    /**
+     * The file extension for the Artisan Java Extension Format
+     *
+     * @since 1.0.0
+     */
     public static final String FILE_EXTENSION = ".ajex";
 
     private ArtisanFormat() {

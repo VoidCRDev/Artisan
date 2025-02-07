@@ -4,6 +4,7 @@ import org.jspecify.annotations.NullMarked;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.MethodNode;
+import sh.miles.artisan.ArtisanExtensions;
 import sh.miles.artisan.extension.ArtisanExtension;
 import sh.miles.artisan.extension.ContainerHandler;
 import sh.miles.artisan.util.ArtisanUtils;
@@ -19,9 +20,21 @@ import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
 import static org.objectweb.asm.Opcodes.ACC_PROTECTED;
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 
+/**
+ * A Built in plugin for simple access transformations.
+ * <p>
+ * This plugin is automatically registered via {@link ArtisanExtensions#registerDefaultExtension(ArtisanExtension)}
+ *
+ * @since 1.0.0
+ */
 @NullMarked
 public class ArtisanAccessTransformationExtension implements ArtisanExtension {
 
+    /**
+     * Creates a new extension
+     *
+     * @since 1.0.0
+     */
     public ArtisanAccessTransformationExtension() {
     }
 

@@ -5,6 +5,7 @@ import org.jspecify.annotations.Nullable;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
+import sh.miles.artisan.ArtisanExtensions;
 import sh.miles.artisan.extension.ArtisanExtension;
 import sh.miles.artisan.extension.ContainerHandler;
 import sh.miles.artisan.util.JvmClasspath;
@@ -23,6 +24,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
+/**
+ * Bulk class editor that provides run logic to extensions as well as other options to tweak the run time such as
+ * logging and differing sources. Generally should be preferred to create an ArtisanClassEditor through the
+ * {@link ArtisanExtensions} class
+ *
+ * @since 1.0.0
+ */
 @NullMarked
 public final class ArtisanClassEditor {
 
@@ -37,6 +45,12 @@ public final class ArtisanClassEditor {
     private final Set<String> containers = new HashSet<>();
     private boolean hasPreRun = false;
 
+    /**
+     * Creates a class new editor. Should generally be accessed through {@link ArtisanExtensions#newEditor()} or
+     * {@link ArtisanExtensions#newDefaultEditor()}
+     *
+     * @since 1.0.0
+     */
     public ArtisanClassEditor() {
     }
 

@@ -76,6 +76,7 @@ public final class ArtisanExtensions {
      * @return the newly created extension
      * @since 1.0.0
      */
+    @SuppressWarnings("unchecked")
     public static ArtisanExtension createExtension(String extensionName, String extensionVersion, Supplier<ContainerHandler>... handlers) {
         if (extensionName == null) {
             throw new IllegalArgumentException("The extension name must not be null");

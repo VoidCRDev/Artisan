@@ -14,6 +14,11 @@ import java.util.Objects;
 @NullMarked
 public final class LiteralArtisanSyntaxNode extends ArtisanSyntaxNode {
 
+    /**
+     * The literal content of this syntax node
+     *
+     * @since 1.0.0
+     */
     public final String literal;
 
     LiteralArtisanSyntaxNode(final String literal) {
