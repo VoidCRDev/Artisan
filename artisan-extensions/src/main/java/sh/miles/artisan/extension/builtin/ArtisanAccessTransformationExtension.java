@@ -13,8 +13,10 @@ import sh.miles.artisan.util.log.ArtisanLogger;
 import sh.miles.artisan.visitor.LiteralResult;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
 import static org.objectweb.asm.Opcodes.ACC_PROTECTED;
@@ -56,6 +58,7 @@ public class ArtisanAccessTransformationExtension implements ArtisanExtension {
     private static class ArtisanAccessTransformationHandler implements ContainerHandler {
 
         private final Map<JvmClasspath, Map<String, AccessTransformer>> transformations = new HashMap<>();
+        private final Set<JvmClasspath> classes = new HashSet<>();
 
         @Override
         public void parse(final LiteralResult literal, final ArtisanLogger logger) {
@@ -71,6 +74,7 @@ public class ArtisanAccessTransformationExtension implements ArtisanExtension {
             }
 
             final JvmClasspath classpath = new JvmClasspath(JvmClasspath.CLASS, split.get(1), null, null);
+            this.classes.add(classpath);
             final JvmClasspath target;
             final String descriptorString = split.get(2);
 
@@ -82,6 +86,11 @@ public class ArtisanAccessTransformationExtension implements ArtisanExtension {
             final String name = target.descriptor() == null ? target.name() : target.name() + target.descriptor();
             transformations.put(name, new AccessTransformer(access, target));
             logger.info("Found AT Transformation %s".formatted(name));
+        }
+
+        @Override
+        public boolean doesModify(final JvmClasspath path) {
+            return this.classes.contains(path);
         }
 
         @Override

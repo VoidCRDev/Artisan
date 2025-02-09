@@ -35,6 +35,14 @@ public interface ContainerHandler {
     void visit(ClassNode node, JvmClasspath path, ArtisanLogger logger);
 
     /**
+     * Determines whether or not the provided container handler will end up modifying the provided classpath
+     *
+     * @param path the class path that will be modified
+     * @return true if the class will be modified otherwise false
+     */
+    boolean doesModify(JvmClasspath path);
+
+    /**
      * The name of the container this ContainerHandler applies to
      *
      * @return the name of the container

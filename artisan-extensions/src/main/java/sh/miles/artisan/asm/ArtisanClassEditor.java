@@ -173,8 +173,9 @@ public final class ArtisanClassEditor {
         final ClassNode node = new ClassNode();
         reader.accept(node, 0);
 
+        boolean modified = false;
         final JvmClasspath classpath = new JvmClasspath(JvmClasspath.CLASS, node.name, null, null);
-        final ClassWriter writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS + ClassWriter.COMPUTE_FRAMES);
+        final ClassWriter writer = new ClassWriter(reader, 0);
         for (final ArtisanExtension extension : this.extensions.values()) {
             logger.info("Applying extension " + extension.name());
             for (final ContainerHandler handler : extension.buildHandlers()) {
@@ -189,8 +190,10 @@ public final class ArtisanClassEditor {
                 }
 
                 try {
-                    handler.visit(node, classpath, this.logger);
-                    logger.info("Finished applying visitor for class %s within container %s".formatted(classpath.dotpath(), handler.containerName()));
+                    if (handler.doesModify(classpath)) {
+                        handler.visit(node, classpath, this.logger);
+                        logger.info("Finished applying visitor for class %s within container %s".formatted(classpath.dotpath(), handler.containerName()));
+                    }
                 } catch (Exception e) {
                     logger.throwing("Unable to apply handler with exception", e);
                 }

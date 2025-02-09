@@ -89,6 +89,11 @@ public class MockArtisanExtension implements ArtisanExtension {
         }
 
         @Override
+        public boolean doesModify(final JvmClasspath path) {
+            return true;
+        }
+
+        @Override
         public String containerName() {
             return "NAIVE_TEST_AT";
         }
