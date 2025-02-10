@@ -17,6 +17,7 @@ import sh.miles.artisan.visitor.LiteralResult;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -171,7 +172,7 @@ public final class ArtisanClassEditor {
 
         final ClassReader reader = new ClassReader(classBytes);
         final ClassNode node = new ClassNode();
-        reader.accept(node, ClassWriter.COMPUTE_FRAMES);
+        reader.accept(node, 0);
 
         boolean modified = false;
         final JvmClasspath classpath = new JvmClasspath(JvmClasspath.CLASS, node.name, null, null);
@@ -192,6 +193,7 @@ public final class ArtisanClassEditor {
                 try {
                     if (handler.doesModify(classpath)) {
                         handler.visit(node, classpath, this.logger);
+                        modified = true;
                         logger.info("Finished applying visitor for class %s within container %s".formatted(classpath.dotpath(), handler.containerName()));
                     }
                 } catch (Exception e) {
@@ -201,6 +203,9 @@ public final class ArtisanClassEditor {
         }
 
         node.accept(writer);
+        if (!modified) {
+            return classBytes;
+        }
         return writer.toByteArray();
     }
 
