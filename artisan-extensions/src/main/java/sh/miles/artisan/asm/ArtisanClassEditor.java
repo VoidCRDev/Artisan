@@ -171,7 +171,7 @@ public final class ArtisanClassEditor {
 
         final ClassReader reader = new ClassReader(classBytes);
         final ClassNode node = new ClassNode();
-        reader.accept(node, 0);
+        reader.accept(node, ClassWriter.COMPUTE_FRAMES);
 
         boolean modified = false;
         final JvmClasspath classpath = new JvmClasspath(JvmClasspath.CLASS, node.name, null, null);
