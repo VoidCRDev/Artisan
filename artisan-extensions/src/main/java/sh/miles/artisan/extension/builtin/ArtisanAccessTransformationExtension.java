@@ -5,6 +5,7 @@ import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.MethodNode;
 import sh.miles.artisan.ArtisanExtensions;
+import sh.miles.artisan.asm.ArtisanAccessUtil;
 import sh.miles.artisan.extension.ArtisanExtension;
 import sh.miles.artisan.extension.ContainerHandler;
 import sh.miles.artisan.util.ArtisanUtils;
@@ -64,13 +65,9 @@ public class ArtisanAccessTransformationExtension implements ArtisanExtension {
         public void parse(final LiteralResult literal, final ArtisanLogger logger) {
             final List<String> split = ArtisanUtils.simpleSplit(literal.literal, ' ', 3);
 
-            final int access;
-            switch (split.getFirst()) {
-                case "public" -> access = ACC_PUBLIC;
-                case "protected" -> access = ACC_PROTECTED;
-                case "private" -> access = ACC_PRIVATE;
-                case null, default ->
-                        throw new IllegalArgumentException("Unexpected scope definition " + split.getFirst());
+            final int access = ArtisanAccessUtil.scopeToOpcode(split.getFirst());
+            if (access == -1) {
+                throw new IllegalArgumentException("Unexpected scope definition" + split.getFirst());
             }
 
             final JvmClasspath classpath = new JvmClasspath(JvmClasspath.CLASS, split.get(1), null, null);
