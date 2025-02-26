@@ -46,6 +46,7 @@ public final class ArtisanUtils {
         try {
             int next;
             while ((next = stream.read()) != -1 && !intArrayContains(terminators, next)) {
+                if (next == '\r') continue; // obligatory fuck windows
                 collecting.accept(collector, next);
             }
             if (next == -1 && containsFileEnd) {

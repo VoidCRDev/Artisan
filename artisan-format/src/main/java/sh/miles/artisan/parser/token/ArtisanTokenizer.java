@@ -52,7 +52,7 @@ public final class ArtisanTokenizer implements Iterator<ArtisanParseToken> {
             int next;
 
             while ((next = stream.read()) != -1) {
-                if (next == NEW_LINE) continue;
+                if (next == NEW_LINE || next == 13) continue;
 
                 switch (next) {
                     case META -> {
