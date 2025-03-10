@@ -24,7 +24,7 @@ public final class ArtisanAccessUtil {
     private static final Map<String, Integer> TRANSLATOR = Map.of("public", ACC_PUBLIC, "private", ACC_PRIVATE, "protected", ACC_PROTECTED, "static", ACC_STATIC, "final", ACC_FINAL, "synchronized", ACC_SYNCHRONIZED, "transitive", ACC_TRANSITIVE, "transient", ACC_TRANSIENT);
 
     private ArtisanAccessUtil() {
-        ArtisanUtils.utilityClass(getClass());
+        throw ArtisanUtils.utilityClass(getClass());
     }
 
     /**

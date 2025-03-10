@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 /**
  * Bulk class editor that provides run logic to extensions as well as other options to tweak the run time such as
@@ -43,7 +44,7 @@ public final class ArtisanClassEditor {
     private Path clazzPath = null;
     private byte @Nullable [] clazzBytes = null;
 
-    private final Set<String> containers = new HashSet<>();
+    private final Set<ContainerHandler> containers = new HashSet<>();
     private boolean hasPreRun = false;
 
     /**
@@ -137,6 +138,7 @@ public final class ArtisanClassEditor {
      */
     public ArtisanClassEditor syntaxTreeReader(ArtisanNodeReader syntaxTreeReader) {
         this.syntaxTreeReader = syntaxTreeReader;
+        this.hasPreRun = false;
         return this;
     }
 
@@ -177,28 +179,15 @@ public final class ArtisanClassEditor {
         boolean modified = false;
         final JvmClasspath classpath = new JvmClasspath(JvmClasspath.CLASS, node.name, null, null);
         final ClassWriter writer = new ClassWriter(reader, 0);
-        for (final ArtisanExtension extension : this.extensions.values()) {
-            logger.info("Applying extension " + extension.name());
-            for (final ContainerHandler handler : extension.buildHandlers()) {
-                final List<LiteralResult> literals = this.syntaxTreeReader.getLiterals(handler.containerName());
-                for (final LiteralResult literal : literals) {
-                    handler.parse(literal, this.logger);
+        for (final ContainerHandler handler : this.containers) {
+            try {
+                if (handler.doesModify(classpath)) {
+                    handler.visit(node, classpath, this.logger);
+                    modified = true;
+                    logger.info("Finished applying visitor for class %s within container %s".formatted(classpath.dotpath(), handler.containerName()));
                 }
-
-                if (!containers.contains(handler.containerName())) {
-                    logger.debug("Skipping container %s from %s".formatted(handler.containerName(), extension.name()));
-                    continue;
-                }
-
-                try {
-                    if (handler.doesModify(classpath)) {
-                        handler.visit(node, classpath, this.logger);
-                        modified = true;
-                        logger.info("Finished applying visitor for class %s within container %s".formatted(classpath.dotpath(), handler.containerName()));
-                    }
-                } catch (Exception e) {
-                    logger.throwing("Unable to apply handler with exception", e);
-                }
+            } catch (Exception e) {
+                logger.throwing("Unable to apply handler with exception", e);
             }
         }
 
@@ -214,7 +203,23 @@ public final class ArtisanClassEditor {
             return;
         }
 
-        this.containers.addAll(syntaxTreeReader.getContainers());
+        final Set<String> contaierNames = new HashSet<>(syntaxTreeReader.getContainers());
+        for (final ArtisanExtension extension : this.extensions.values()) {
+            logger.debug("Gathering Containers from extension %s".formatted(extension.name()));
+            for (final ContainerHandler handler : extension.buildHandlers()) {
+                if (!contaierNames.contains(handler.containerName())) {
+                    logger.debug("Skipping container %s from %s".formatted(handler.containerName(), extension.name()));
+                }
+
+                final List<LiteralResult> literals = this.syntaxTreeReader.getLiterals(handler.containerName());
+                for (final LiteralResult literal : literals) {
+                    handler.parse(literal, this.logger);
+                }
+
+                this.containers.add(handler);
+            }
+        }
+
         hasPreRun = true;
     }
 }

@@ -1,6 +1,7 @@
 package sh.miles.artisan;
 
 import org.jspecify.annotations.NullMarked;
+import sh.miles.artisan.asm.ArtisanClassCreator;
 import sh.miles.artisan.asm.ArtisanClassEditor;
 import sh.miles.artisan.extension.ArtisanExtension;
 import sh.miles.artisan.extension.ContainerHandler;
@@ -42,6 +43,16 @@ public final class ArtisanExtensions {
     }
 
     /**
+     * Creates a new ArtisanClassCreator
+     *
+     * @return the class creator
+     * @since 1.1.0
+     */
+    public static ArtisanClassCreator newCreator() {
+        return new ArtisanClassCreator();
+    }
+
+    /**
      * Creates a default editor packaged with the extensions registered through
      * {@link #registerDefaultExtension(ArtisanExtension)}
      *
@@ -55,6 +66,22 @@ public final class ArtisanExtensions {
         }
 
         return editor;
+    }
+
+    /**
+     * Creates a default creator with the extensions registered through
+     * {@link #registerDefaultExtension(ArtisanExtension)}
+     *
+     * @return a new class writer with default
+     * @since 1.1.0
+     */
+    public static ArtisanClassCreator newDefaultCreator() {
+        final var creator = new ArtisanClassCreator();
+        for (final ArtisanExtension extension : defaultExtensions.values()) {
+            creator.extension(extension);
+        }
+
+        return creator;
     }
 
     /**

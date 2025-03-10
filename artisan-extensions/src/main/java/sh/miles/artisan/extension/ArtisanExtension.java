@@ -30,6 +30,8 @@ public interface ArtisanExtension {
 
     /**
      * Gets a list of handlers
+     * <p>
+     * Expect handlers to typically only be built once per .ajex file
      *
      * @return a list of container handlers
      * @since 1.0.0
