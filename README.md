@@ -2,7 +2,7 @@
 ### Making writing code generation operations easier
 
 Artisan provides an easy to digest and read format that is both extensible and provides for the flexibility
-needed to simplify and write code generation operations for the java programming language.
+needed to simplify and write code generation operations for the jvm.
 
 Artisan is built upon different modules you can read more about the modules in the `README.md` of each module.
 For brevity they will be listed here:
